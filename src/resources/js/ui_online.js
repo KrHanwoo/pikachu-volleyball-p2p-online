@@ -92,7 +92,6 @@ export function setUpUI() {
   // game keyboard input needs to be unsubscribe for typing join room ID
   myKeyboard.unsubscribe();
 
-  const networkTestBtn = document.getElementById('network-test-btn');
   const quickMatchBtn = document.getElementById('quick-match-btn');
   const withYourFriendBtn = document.getElementById('with-your-friend-btn');
   const createBtn = document.getElementById('create-btn');
@@ -104,8 +103,6 @@ export function setUpUI() {
   exitRoomBtn.disabled = true;
 
   const disableBtns = () => {
-    // @ts-ignore
-    networkTestBtn.disabled = true;
     // @ts-ignore
     quickMatchBtn.disabled = true;
     // @ts-ignore
@@ -119,7 +116,6 @@ export function setUpUI() {
   };
   const enableBtns = () => {
     // @ts-ignore
-    networkTestBtn.disabled = false;
     if (
       document
         .getElementById('about-with-your-friend')
@@ -137,46 +133,6 @@ export function setUpUI() {
     // @ts-ignore
     joinRoomIdInput.disabled = false;
   };
-  networkTestBtn.addEventListener('click', () => {
-    disableBtns();
-    const callBackIfPassed = () => {
-      document.getElementById('test-passed').classList.remove('hidden');
-    };
-    const callBackIfDidNotGetSrflxAndDidNotGetHost = () => {
-      document
-        .getElementById(
-          'did-not-get-srflx-candidate-and-did-not-get-host-candidate'
-        )
-        .classList.remove('hidden');
-    };
-    const callBackIfDidNotGetSrflxAndHostAddressIsObfuscated = () => {
-      document
-        .getElementById(
-          'did-not-get-srflx-candidate-and-host-address-is-obfuscated'
-        )
-        .classList.remove('hidden');
-    };
-    const callBackIfDidNotGetSrflxAndHostAddressIsPrivateIPAddress = () => {
-      document
-        .getElementById(
-          'did-not-get-srflx-candidate-and-host-address-is-private-ip-address'
-        )
-        .classList.remove('hidden');
-    };
-    const callBackIfBehindSymmetricNat = () => {
-      document
-        .getElementById('behind-symmetric-nat')
-        .classList.remove('hidden');
-    };
-    testNetwork(
-      enableBtns,
-      callBackIfPassed,
-      callBackIfDidNotGetSrflxAndDidNotGetHost,
-      callBackIfDidNotGetSrflxAndHostAddressIsObfuscated,
-      callBackIfDidNotGetSrflxAndHostAddressIsPrivateIPAddress,
-      callBackIfBehindSymmetricNat
-    );
-  });
 
   const nicknameInputElem = document.getElementById('nickname-input');
   let myNickname = null;
