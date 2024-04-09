@@ -18,7 +18,7 @@
  *    but "incrementing" them by 1 (only in the case of a timestamp collision).
  */
 export const generatePushID = (function () {
-  const PUSH_CHARS = 'abcdefghijkmnpqrstuvwxyz';
+  const PUSH_CHARS = 'ABCDEFGHIJKMNPQRSTUVWXYZ';
 
   return function () {
     let id = '';

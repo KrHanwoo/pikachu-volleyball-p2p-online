@@ -66,7 +66,6 @@ const pendingOptions = {
 
 let pikaVolleyOnline = null; // it is set after loading the game assets
 let willNotifyBySound = null;
-let alreadySaved = false;
 
 const chatOpenBtnAndChatDisablingBtnContainer = document.getElementById(
   'chat-open-btn-and-chat-disabling-btn-container'
@@ -438,22 +437,22 @@ export function setUpUI() {
       return;
     }
     if (event.code === 'KeyY') {
-      event.preventDefault();
       // @ts-ignore
       const btnForKeyY = document.querySelector(
         'div.fade-in-box:not(.hidden) button.key-y'
       );
       if (btnForKeyY !== null) {
+        event.preventDefault();
         // @ts-ignore
         btnForKeyY.click();
       }
     } else if (event.code === 'KeyN') {
-      event.preventDefault();
       // @ts-ignore
       const btnForKeyN = document.querySelector(
         'div.fade-in-box:not(.hidden) button.key-n'
       );
       if (btnForKeyN !== null) {
+        event.preventDefault();
         // @ts-ignore
         btnForKeyN.click();
       }
