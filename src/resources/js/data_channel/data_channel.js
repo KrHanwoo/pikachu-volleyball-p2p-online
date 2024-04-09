@@ -35,7 +35,6 @@ import {
   printStartsIn,
   printLog,
   printPeriodInLog,
-  printNotValidRoomIdMessage,
   printNoRoomMatchingMessage,
   printNoRoomMatchingMessageInQuickMatch,
   printSomeoneElseAlreadyJoinedRoomMessage,
@@ -252,10 +251,6 @@ export async function createRoom(roomIdToCreate) {
  */
 export async function joinRoom(roomIdToJoin) {
   roomId = roomIdToJoin;
-  if (roomId.length !== 20) {
-    printNotValidRoomIdMessage();
-    return false;
-  }
   console.log('Join room: ', roomId);
 
   const db = getFirestore(firebaseApp);
@@ -761,9 +756,9 @@ function respondToPingTest(data) {
   } else if (dataView.getInt8(0) === -2) {
     pingTestManager.pingMesurementArray.push(
       Date.now() -
-        pingTestManager.pingSentTimeArray[
-          pingTestManager.receivedPingResponseNumber
-        ]
+      pingTestManager.pingSentTimeArray[
+      pingTestManager.receivedPingResponseNumber
+      ]
     );
     pingTestManager.receivedPingResponseNumber++;
   }

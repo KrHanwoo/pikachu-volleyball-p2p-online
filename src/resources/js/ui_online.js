@@ -555,7 +555,7 @@ export function setUpUI() {
       };
       // Start quick match only if user network passed the network test.
       testNetwork(
-        () => {},
+        () => { },
         callBackIfPassed,
         callBackIfDidNotGetSrflxAndDidNotGetHost,
         callBackIfDidNotGetSrflxAndHostAddressIsObfuscated,
@@ -972,11 +972,7 @@ export function setUpUIAfterLoadingGameAssets(pikaVolley, ticker) {
 }
 
 function printCurrentRoomID(roomId) {
-  const prettyRoomId = `${roomId.slice(0, 5)}-${roomId.slice(
-    5,
-    10
-  )}-${roomId.slice(10, 15)}-${roomId.slice(15)}`;
-  document.getElementById('current-room-id').textContent = prettyRoomId;
+  document.getElementById('current-room-id').textContent = roomId;
 }
 
 function getJoinRoomID() {
@@ -985,8 +981,6 @@ function getJoinRoomID() {
       .getElementById('join-room-id-input')
       // @ts-ignore
       .value.trim()
-      .split('-')
-      .join('')
   );
 }
 
