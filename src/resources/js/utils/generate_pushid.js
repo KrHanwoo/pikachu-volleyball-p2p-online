@@ -18,60 +18,13 @@
  *    but "incrementing" them by 1 (only in the case of a timestamp collision).
  */
 export const generatePushID = (function () {
-  // Modeled after base32 web-safe chars, but ordered by ASCII.
   const PUSH_CHARS = '23456789abcdefghijkmnpqrstuvwxyz';
 
-  // Timestamp of last push, used to prevent local collisions if you push twice in one ms.
-  let lastPushTime = 0;
-
-  // We generate 50-bits of randomness which get turned into 10 characters (since 32 === 2^5, (2^5)^10 === 2^50 )
-  // and appended to the timestamp to prevent collisions with other clients. We store the last characters we
-  // generated because in the event of a collision, we'll use those same characters except
-  // "incremented" by one.
-  const lastRandChars = [];
-
   return function () {
-    let now = Date.now();
-    const duplicateTime = now === lastPushTime;
-    lastPushTime = now;
-
-    const timeStampChars = new Array(3);
-    for (let i = 9; i >= 0; i--) {
-      timeStampChars[i] = PUSH_CHARS.charAt(now % 32);
-      // NOTE: Can't use << here because javascript will convert to int and lose the upper bits.
-      now = Math.floor(now / 32);
+    let id = '';
+    for (let i = 0; i < 5; i++) {
+      id += PUSH_CHARS.charAt(Math.floor(Math.random() * PUSH_CHARS.length));
     }
-    if (now !== 0)
-      throw new Error('We should have converted the entire timestamp.');
-
-    let id = timeStampChars.join('');
-    if (!duplicateTime) {
-      let array;
-      if (
-        typeof window.crypto !== 'undefined' &&
-        window.crypto.getRandomValues
-      ) {
-        array = new Uint32Array(3);
-        window.crypto.getRandomValues(array);
-      }
-      for (let i = 0; i < 3; i++) {
-        lastRandChars[i] = array
-          ? array[i] % 32
-          : Math.floor(Math.random() * 32);
-      }
-    } else {
-      // If the timestamp hasn't changed since last push, use the same random number, except incremented by 1.
-      let i;
-      for (i = 9; i >= 0 && lastRandChars[i] === 31; i--) {
-        lastRandChars[i] = 0;
-      }
-      lastRandChars[i]++;
-    }
-    for (let i = 0; i < 3; i++) {
-      id += PUSH_CHARS.charAt(lastRandChars[i]);
-    }
-    if (id.length !== 20) throw new Error('Length should be 20.');
-
     return id;
   };
 })();
