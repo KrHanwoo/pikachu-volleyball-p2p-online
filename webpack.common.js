@@ -7,7 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: {
     main: './src/resources/js/main_online.js',
-    ko: './src/ko/ko.js',
     main_replay: './src/resources/js/replay/main_replay.js',
     main_update_history:
       './src/resources/js/update_history/main_update_history.js',
@@ -42,7 +41,6 @@ module.exports = {
           context: 'src/',
           from: 'resources/assets/**/*.+(json|png|mp3|wav)',
         },
-        { from: 'src/index.html', to: 'index.html' },
       ],
     }),
     new MiniCssExtractPlugin({
@@ -50,8 +48,8 @@ module.exports = {
       chunkFilename: '[id].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
-      template: 'src/ko/index.html',
-      filename: 'ko/index.html',
+      template: 'src/index.html',
+      filename: 'index.html',
       chunks: [
         'runtime',
         'ko',
@@ -59,26 +57,6 @@ module.exports = {
         'dark_color_scheme',
         'is_embedded_in_other_website',
       ],
-      chunksSortMode: 'manual',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/ko/replay/index.html',
-      filename: 'ko/replay/index.html',
-      chunks: ['runtime', 'ko', 'main_replay', 'dark_color_scheme'],
-      chunksSortMode: 'manual',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/ko/update-history/index.html',
-      filename: 'ko/update-history/index.html',
-      chunks: ['main_update_history', 'dark_color_scheme'],
       chunksSortMode: 'manual',
       minify: {
         collapseWhitespace: true,
