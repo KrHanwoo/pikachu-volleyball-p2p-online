@@ -15,17 +15,9 @@ import {
 } from './data_channel/data_channel.js';
 import { generatePushID } from './utils/generate_pushid.js';
 import { myKeyboard } from './keyboard_online.js';
-import { testNetwork } from './data_channel/network_test.js';
-import {
-  MESSAGE_TO_CLIENT,
-  startQuickMatch,
-  sendCancelQuickMatchMessageToServer,
-} from './quick_match/quick_match.js';
 import { enableChat } from './chat_display.js';
 import { replaySaver } from './replay/replay_saver.js';
-import { showBlockThisPeerBtn } from './block_other_players/ui.js';
 import '../style.css';
-import { MATCH_GROUP } from './quick_match/match_group.js';
 
 /** @typedef {import('./pikavolley_online.js').PikachuVolleyballOnline} PikachuVolleyballOnline */
 /** @typedef {import('@pixi/ticker').Ticker} Ticker */
@@ -92,8 +84,6 @@ export function setUpUI() {
   // game keyboard input needs to be unsubscribe for typing join room ID
   myKeyboard.unsubscribe();
 
-  const quickMatchBtn = document.getElementById('quick-match-btn');
-  const withYourFriendBtn = document.getElementById('with-your-friend-btn');
   const createBtn = document.getElementById('create-btn');
   const copyBtn = document.getElementById('copy-btn');
   const exitRoomBtn = document.getElementById('exit-room-btn');
@@ -104,10 +94,6 @@ export function setUpUI() {
 
   const disableBtns = () => {
     // @ts-ignore
-    quickMatchBtn.disabled = true;
-    // @ts-ignore
-    withYourFriendBtn.disabled = true;
-    // @ts-ignore
     createBtn.disabled = true;
     // @ts-ignore
     joinBtn.disabled = true;
@@ -115,17 +101,6 @@ export function setUpUI() {
     joinRoomIdInput.disabled = true;
   };
   const enableBtns = () => {
-    // @ts-ignore
-    if (
-      document
-        .getElementById('about-with-your-friend')
-        .classList.contains('hidden')
-    ) {
-      // @ts-ignore
-      quickMatchBtn.disabled = false;
-    }
-    // @ts-ignore
-    withYourFriendBtn.disabled = false;
     // @ts-ignore
     createBtn.disabled = false;
     // @ts-ignore
@@ -300,245 +275,6 @@ export function setUpUI() {
     applyOptions({ sfx: sfxSetting });
   }
 
-  let preselectedMatchGroup = null;
-  try {
-    preselectedMatchGroup = window.localStorage.getItem(
-      'preselectedMatchGroup'
-    );
-  } catch (err) {
-    console.log(err);
-  }
-  if (preselectedMatchGroup === null) {
-    preselectedMatchGroup = document.querySelector(
-      'input[name="match-group"]:checked'
-      // @ts-ignore
-    ).value;
-  }
-  const eachTimeRadioBtn = document.getElementById('each-time');
-  const globalRadioBtn = document.getElementById('global');
-  const koreaRadioBtn = document.getElementById('korea');
-  const taiwanRadioBtn = document.getElementById('taiwan');
-  if (Object.values(MATCH_GROUP).includes(preselectedMatchGroup)) {
-    switch (preselectedMatchGroup) {
-      case MATCH_GROUP.GLOBAL:
-        // @ts-ignore
-        globalRadioBtn.checked = true;
-        break;
-      case MATCH_GROUP.KR:
-        // @ts-ignore
-        koreaRadioBtn.checked = true;
-        break;
-      case MATCH_GROUP.TW:
-        // @ts-ignore
-        taiwanRadioBtn.checked = true;
-        break;
-    }
-  } else {
-    // If preselectedMatchGroup is set "EACH-TIME" or other value not enumerated
-    // in MATCH_GROUP, it is converted to null.
-    preselectedMatchGroup = null;
-
-    // @ts-ignore
-    eachTimeRadioBtn.checked = true;
-  }
-
-  const matchGroupPreselectionRadioBtnEventListener = (event) => {
-    const currentTarget = event.currentTarget;
-    // @ts-ignore
-    if (currentTarget.checked) {
-      // @ts-ignore
-      const value = currentTarget.value;
-      if (Object.values(MATCH_GROUP).includes(value)) {
-        preselectedMatchGroup = value;
-        try {
-          window.localStorage.setItem(
-            'preselectedMatchGroup',
-            // @ts-ignore
-            currentTarget.value
-          );
-        } catch (err) {
-          console.log(err);
-        }
-      } else {
-        // If value is set "EACH-TIME"
-        preselectedMatchGroup = null;
-        try {
-          window.localStorage.removeItem('preselectedMatchGroup');
-        } catch (err) {
-          console.log(err);
-        }
-      }
-    }
-  };
-  eachTimeRadioBtn.addEventListener(
-    'change',
-    matchGroupPreselectionRadioBtnEventListener
-  );
-  globalRadioBtn.addEventListener(
-    'change',
-    matchGroupPreselectionRadioBtnEventListener
-  );
-  koreaRadioBtn.addEventListener(
-    'change',
-    matchGroupPreselectionRadioBtnEventListener
-  );
-  taiwanRadioBtn.addEventListener(
-    'change',
-    matchGroupPreselectionRadioBtnEventListener
-  );
-
-  const startQuickMatchIfPressEnter = (event) => {
-    if (event.code === 'Enter' || event.code === 'KeyZ') {
-      event.preventDefault();
-      window.removeEventListener('keydown', startQuickMatchIfPressEnter);
-      document
-        .getElementById('press-enter-to-quick-match')
-        .classList.add('hidden');
-      const callBackIfPassed = () => {
-        const globalMatchGroupBtn = document.querySelector(
-          '#global-match-group-btn'
-        );
-        const koreaMatchGroupBtn = document.querySelector(
-          '#korea-match-group-btn'
-        );
-        const taiwanMatchGroupBtn = document.querySelector(
-          '#taiwan-match-group-btn'
-        );
-        const matchGroupInQuickMatchNoticeBox = document.getElementById(
-          'match-group-in-quick-match-notice-box'
-        );
-        const selectMatchGroupByPressingKeyboardShortcut = (event) => {
-          switch (event.code) {
-            case 'KeyG':
-              event.preventDefault();
-              // @ts-ignore
-              globalMatchGroupBtn.click();
-              break;
-            case 'KeyK':
-              event.preventDefault();
-              // @ts-ignore
-              koreaMatchGroupBtn.click();
-              break;
-            case 'KeyT':
-              event.preventDefault();
-              // @ts-ignore
-              taiwanMatchGroupBtn.click();
-              break;
-          }
-        };
-        window.addEventListener(
-          'keydown',
-          selectMatchGroupByPressingKeyboardShortcut
-        );
-        const startQuickMatchWithMatchGroup = (matchGroup) => {
-          window.removeEventListener(
-            'keydown',
-            selectMatchGroupByPressingKeyboardShortcut
-          );
-          document.getElementById('select-match-group').classList.add('hidden');
-          document
-            .getElementById('quick-match-notice-box')
-            .classList.remove('hidden');
-          const roomId = generatePushID();
-          startQuickMatch(roomId, matchGroup);
-        };
-        globalMatchGroupBtn.addEventListener('click', () => {
-          matchGroupInQuickMatchNoticeBox.textContent =
-            globalMatchGroupBtn.querySelector('.match-group-name').textContent;
-          startQuickMatchWithMatchGroup(MATCH_GROUP.GLOBAL);
-        });
-        koreaMatchGroupBtn.addEventListener('click', () => {
-          matchGroupInQuickMatchNoticeBox.textContent =
-            koreaMatchGroupBtn.querySelector('.match-group-name').textContent;
-          startQuickMatchWithMatchGroup(MATCH_GROUP.KR);
-        });
-        taiwanMatchGroupBtn.addEventListener('click', () => {
-          matchGroupInQuickMatchNoticeBox.textContent =
-            taiwanMatchGroupBtn.querySelector('.match-group-name').textContent;
-          startQuickMatchWithMatchGroup(MATCH_GROUP.TW);
-        });
-
-        document
-          .getElementById('select-match-group')
-          .classList.remove('hidden');
-
-        if (preselectedMatchGroup !== null) {
-          switch (preselectedMatchGroup) {
-            case MATCH_GROUP.GLOBAL:
-              // @ts-ignore
-              globalMatchGroupBtn.click();
-              break;
-            case MATCH_GROUP.KR:
-              // @ts-ignore
-              koreaMatchGroupBtn.click();
-              break;
-            case MATCH_GROUP.TW:
-              // @ts-ignore
-              taiwanMatchGroupBtn.click();
-              break;
-          }
-        }
-      };
-      const callBackIfDidNotGetSrflxAndDidNotGetHost = () => {
-        document
-          .getElementById(
-            'did-not-get-srflx-candidate-and-did-not-get-host-candidate'
-          )
-          .classList.remove('hidden');
-        enableBtns();
-      };
-      const callBackIfDidNotGetSrflxAndHostAddressIsObfuscated = () => {
-        document
-          .getElementById(
-            'did-not-get-srflx-candidate-and-host-address-is-obfuscated'
-          )
-          .classList.remove('hidden');
-        enableBtns();
-      };
-      const callBackIfDidNotGetSrflxAndHostAddressIsPrivateIPAddress = () => {
-        document
-          .getElementById(
-            'did-not-get-srflx-candidate-and-host-address-is-private-ip-address'
-          )
-          .classList.remove('hidden');
-        enableBtns();
-      };
-      const callBackIfBehindSymmetricNat = () => {
-        document
-          .getElementById('behind-symmetric-nat')
-          .classList.remove('hidden');
-        enableBtns();
-      };
-      // Start quick match only if user network passed the network test.
-      testNetwork(
-        () => { },
-        callBackIfPassed,
-        callBackIfDidNotGetSrflxAndDidNotGetHost,
-        callBackIfDidNotGetSrflxAndHostAddressIsObfuscated,
-        callBackIfDidNotGetSrflxAndHostAddressIsPrivateIPAddress,
-        callBackIfBehindSymmetricNat
-      );
-    }
-  };
-  quickMatchBtn.addEventListener('click', () => {
-    disableBtns();
-    channel.isQuickMatch = true;
-    window.addEventListener('keydown', startQuickMatchIfPressEnter);
-    const pressEnterToQuickMatch = document.getElementById(
-      'press-enter-to-quick-match'
-    );
-    pressEnterToQuickMatch.classList.remove('hidden');
-  });
-
-  const clickQuickMatchBtnByPressingEnter = (event) => {
-    if (event.code === 'Enter') {
-      event.preventDefault();
-      window.removeEventListener('keydown', clickQuickMatchBtnByPressingEnter);
-      quickMatchBtn.click();
-    }
-  };
-  window.addEventListener('keydown', clickQuickMatchBtnByPressingEnter);
-
   createBtn.addEventListener('click', () => {
     disableBtns();
     // @ts-ignore
@@ -593,36 +329,7 @@ export function setUpUI() {
       }
     });
   });
-  withYourFriendBtn.addEventListener('click', () => {
-    const aboutWithYourFriend = document.getElementById(
-      'about-with-your-friend'
-    );
-    const blockedIPAddressesTableContainer = document.getElementById(
-      'blocked-ip-addresses-table-container'
-    );
-    const openChatListContainer = document.getElementById(
-      'open-chat-list-container'
-    );
-    if (aboutWithYourFriend.classList.contains('hidden')) {
-      aboutWithYourFriend.classList.remove('hidden');
-      // @ts-ignore
-      quickMatchBtn.disabled = true;
-      window.addEventListener('keydown', clickJoinBtnByPressingEnter);
-      blockedIPAddressesTableContainer.classList.add('hidden');
-      if (openChatListContainer) {
-        openChatListContainer.classList.add('hidden');
-      }
-    } else {
-      aboutWithYourFriend.classList.add('hidden');
-      // @ts-ignore
-      quickMatchBtn.disabled = false;
-      window.removeEventListener('keydown', clickJoinBtnByPressingEnter);
-      blockedIPAddressesTableContainer.classList.remove('hidden');
-      if (openChatListContainer) {
-        openChatListContainer.classList.remove('hidden');
-      }
-    }
-  });
+  window.addEventListener('keydown', clickJoinBtnByPressingEnter);
 
   // hide or show menubar if the user presses the "esc" key
   window.addEventListener('keydown', (event) => {
@@ -733,15 +440,6 @@ export function setUpUI() {
   );
   cancelQuickMatchBtnInSelectMatchGroup.addEventListener('click', () => {
     location.reload();
-  });
-
-  const cancelQuickMatchBtn2 = document.getElementById(
-    'cancel-quick-match-btn-2'
-  );
-  cancelQuickMatchBtn2.addEventListener('click', () => {
-    sendCancelQuickMatchMessageToServer();
-    cleanUpFirestoreRelevants();
-    window.setTimeout(() => location.reload(), 0);
   });
 
   const noticeDisconnectedOKBtn = document.getElementById(
@@ -953,40 +651,6 @@ export function printCommunicationCount(count) {
   document.getElementById('communication-count').textContent = String(count);
 }
 
-/**
- * Print quick match state to quick match log box
- * @param {string} state MESSAGE_TO_CLIENT.x
- */
-export function printQuickMatchState(state) {
-  let log = '';
-  switch (state) {
-    case MESSAGE_TO_CLIENT.createRoom:
-      log = document.getElementById('waiting-message').textContent;
-      break;
-    case MESSAGE_TO_CLIENT.keepWait:
-      return;
-    case MESSAGE_TO_CLIENT.waitPeerConnection:
-      log = document.getElementById(
-        'waiting-peer-to-connect-message'
-      ).textContent;
-      break;
-    case MESSAGE_TO_CLIENT.connectToPeerAfterAWhile:
-      log = document.getElementById(
-        'connect-to-peer-after-a-while-message'
-      ).textContent;
-      break;
-    case MESSAGE_TO_CLIENT.connectToPeer:
-      log = document.getElementById('connect-to-peer-message').textContent;
-      break;
-    case MESSAGE_TO_CLIENT.abandoned:
-      log = document.getElementById('abandoned-message').textContent;
-      break;
-    default:
-      return;
-  }
-  printQuickMatchLog(log);
-}
-
 export function printFailedToConnectToQuickMatchServer() {
   const log = document.getElementById(
     'failed-to-connect-to-server'
@@ -1078,9 +742,6 @@ export function showGameCanvas() {
   const quickMatchNoticeBox = document.getElementById('quick-match-notice-box');
   quickMatchNoticeBox.classList.add('hidden');
   beforeConnection.classList.add('hidden');
-  if (channel.isQuickMatch) {
-    showBlockThisPeerBtn();
-  }
   flexContainer.classList.remove('hidden');
   myKeyboard.subscribe();
 }

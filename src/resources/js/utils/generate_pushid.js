@@ -18,11 +18,11 @@
  *    but "incrementing" them by 1 (only in the case of a timestamp collision).
  */
 export const generatePushID = (function () {
-  const PUSH_CHARS = '23456789abcdefghijkmnpqrstuvwxyz';
+  const PUSH_CHARS = 'abcdefghijkmnpqrstuvwxyz';
 
   return function () {
     let id = '';
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
       id += PUSH_CHARS.charAt(Math.floor(Math.random() * PUSH_CHARS.length));
     }
     return id;

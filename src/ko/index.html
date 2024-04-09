@@ -35,93 +35,16 @@
         <input type="checkbox" id="dark-color-scheme-checkbox-1" class="toggle-switch dark-color-scheme-checkbox" />
         <label for="dark-color-scheme-checkbox-1"></label>
       </div>
-      <p class="languages">
-        <a href="../en/" target="_self">English</a>
-        | &check; Korean(한국어)
-      </p>
     </div>
     <div>
-      <p class="margin-top">
-        <span class="thick">닉네임:</span> 아래에서 닉네임을 설정할 수
-        있습니다. (기본 닉네임은 "플레이어"입니다.)<br />
-        <span class="bold">중복 검사가 없습니다!</span>
-        따라서
-        <span class="bold">같은 닉네임을 사용한다고 해서 같은 사람이라는 뜻은
-          아닙니다.</span>
-        닉네임 아래 앞 부분 일부가 표시되는 공인 IP 주소를 보면, 퀵 매치에서
-        만나는 사람들을 <span class="bold">어느 정도는</span> 식별할 수
-        있습니다.
-      </p>
       <div class="nickname-input-container">
         <label for="nickname-input">닉네임 (최대 8글자)</label>
         <input type="text" id="nickname-input" maxlength="8" autocapitalize="none" autocomplete="off" autocorrect="off"
           value="플레이어" />
       </div>
     </div>
-    <div class="margin-top grid-1-1">
-      <button type="button" id="quick-match-btn">퀵 매치 (엔터)</button>
-      <button type="button" id="with-your-friend-btn">친구와 함께</button>
-    </div>
-    <div id="blocked-ip-addresses-table-container" class="margin-top">
-      <details>
-        <summary>
-          퀵 매치 차단 목록 (<span id="number-of-blocked-ip-addresses">0</span>/50)
-        </summary>
-        <table class="blocked-ip-addresses-table">
-          <thead>
-            <tr>
-              <th>IP 주소</th>
-              <th>차단 날짜</th>
-              <th>메모</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3">
-                <button type="button" class="delete-btn">
-                  목록에서 삭제
-                </button>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </details>
-    </div>
-    <div id="open-chat-list-container" class="margin-top">
-      <div>
-        피카츄 배구 팬을 위한 카카오톡 오픈 채팅방입니다!
-        <ul class="open-chat-list">
-          <li>
-            <a href="https://open.kakao.com/o/g0Cs478f" target="_blank" rel="noopener">피카츄배구 온라인</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div id="about-with-your-friend" class="margin-top hidden">
-      <div>
-        <p class="no-margin-top">
-          <span class="thick">친구와 함께 온라인으로 플레이하는 방법:</span>
-        </p>
-        <p>
-          <span class="thick">방장</span> - "방 만들기" 버튼을 누른 후,
-          만들어진 방 ID를 같이 온라인으로 플레이할 친구("방장의 친구")에게
-          보냅니다. 컴퓨터에서 쉽게 복사 붙여넣기 할 수 있도록 카카오톡 등의
-          메신저로 보내거나 이메일로 보내면 편리합니다.
-        </p>
-        <p>
-          <span class="thick">방장의 친구</span> - 메신저 또는 이메일 등으로
-          받은 방 ID를 "방 들어가기" 버튼 왼편에 있는 텍스트 박스에 복사
-          붙여넣기 합니다. 그리고 "방 들어가기" 버튼을 누릅니다. 이제 연결이
-          시작됩니다.
-        </p>
-        <p class="margin-top">
-          <span class="thick">유의사항:</span> 정상적인 경우 "방장의 친구"가
-          "방 들어가기" 버튼을 누르고 나서 약 5-10초 이내로 연결이
-          이루어집니다. 이보다 오래 지나도 게임이 시작되지 않는다면 연결이
-          실패한 것입니다.
-        </p>
-      </div>
+
+    <div id="about-with-your-friend" class="margin-top">
       <div id="create-btn-with-created-room-id" class="margin-top">
         <button type="button" id="create-btn">
           방 <span class="no-wrap">만들기</span>
@@ -303,32 +226,6 @@
         <div class="margin-top-very-little">
           <input type="radio" id="notify-by-sound-off" name="notify-by-sound" value="off" /><label
             for="notify-by-sound-off">끄기</label>
-        </div>
-      </div>
-      <div id="quick-match-group">
-        <p class="margin-top">
-          <span class="thick">퀵 매치 그룹:</span> 동일한 매치 그룹을 선택한
-          플레이어끼리 퀵 매치가 성사됩니다. 상대방과의 물리적 거리가
-          가까울수록 게임 플레이가 더 원활할 가능성이 높습니다.
-        </p>
-        <div>
-          <input type="radio" id="each-time" name="match-group" value="EACH-TIME" checked /><label for="each-time">매번
-            선택</label>
-        </div>
-        <div class="margin-top-very-little">
-          <!-- For "value", use one of enumerators of MATCH_GROUP
-                 in match_group.js -->
-          <input type="radio" id="global" name="match-group" value="GLOBAL" /><label for="global">지구촌</label>
-        </div>
-        <div class="margin-top-very-little">
-          <!-- For "value", use one of enumerators of MATCH_GROUP
-                 in match_group.js -->
-          <input type="radio" id="korea" name="match-group" value="KR" /><label for="korea">한국</label>
-        </div>
-        <div class="margin-top-very-little">
-          <!-- For "value", use one of enumerators of MATCH_GROUP
-                 in match_group.js -->
-          <input type="radio" id="taiwan" name="match-group" value="TW" /><label for="taiwan">대만</label>
         </div>
       </div>
     </div>

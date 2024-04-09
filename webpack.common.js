@@ -50,8 +50,8 @@ module.exports = {
       chunkFilename: '[id].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
-      template: 'src/en/index.html',
-      filename: 'en/index.html',
+      template: 'src/ko/index.html',
+      filename: 'ko/index.html',
       chunks: [
         'runtime',
         'main',
@@ -81,8 +81,8 @@ module.exports = {
       },
     }),
     new HtmlWebpackPlugin({
-      template: 'src/en/replay/index.html',
-      filename: 'en/replay/index.html',
+      template: 'src/ko/replay/index.html',
+      filename: 'ko/replay/index.html',
       chunks: ['runtime', 'main_replay', 'dark_color_scheme'],
       chunksSortMode: 'manual',
       minify: {
@@ -101,8 +101,8 @@ module.exports = {
       },
     }),
     new HtmlWebpackPlugin({
-      template: 'src/en/update-history/index.html',
-      filename: 'en/update-history/index.html',
+      template: 'src/ko/update-history/index.html',
+      filename: 'ko/update-history/index.html',
       chunks: ['main_update_history', 'dark_color_scheme'],
       chunksSortMode: 'manual',
       minify: {

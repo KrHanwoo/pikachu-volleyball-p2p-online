@@ -46,6 +46,7 @@ import {
   autoAskChangingToFastSpeedToPeer,
   applyAutoAskChangingToFastSpeedWhenBothPeerDo,
   MAX_NICKNAME_LENGTH,
+  printNotValidRoomIdMessage,
 } from '../ui_online.js';
 import {
   displayNicknameFor,
@@ -63,10 +64,6 @@ import {
   convertUserInputTo5bitNumber,
   convert5bitNumberToUserInput,
 } from '../utils/input_conversion.js';
-import {
-  sendQuickMatchSuccessMessageToServer,
-  sendWithFriendSuccessMessageToServer,
-} from '../quick_match/quick_match.js';
 import { replaySaver } from '../replay/replay_saver.js';
 
 /** @typedef {{speed: string, winningScore: number}} Options */
@@ -251,6 +248,10 @@ export async function createRoom(roomIdToCreate) {
  */
 export async function joinRoom(roomIdToJoin) {
   roomId = roomIdToJoin;
+  if (roomId.length !== 4) {
+    printNotValidRoomIdMessage();
+    return false;
+  }
   console.log('Join room: ', roomId);
 
   const db = getFirestore(firebaseApp);
@@ -824,14 +825,6 @@ function dataChannelOpened() {
 
   if (channel.isQuickMatch) {
     disableCancelQuickMatchBtn();
-  }
-
-  if (channel.amICreatedRoom) {
-    if (channel.isQuickMatch) {
-      sendQuickMatchSuccessMessageToServer();
-    } else {
-      sendWithFriendSuccessMessageToServer();
-    }
   }
 
   // record roomId for RNG in replay
