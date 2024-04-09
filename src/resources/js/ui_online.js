@@ -65,7 +65,6 @@ const pendingOptions = {
 };
 
 let pikaVolleyOnline = null; // it is set after loading the game assets
-let willSaveReplayAutomatically = null;
 let willNotifyBySound = null;
 let alreadySaved = false;
 
@@ -164,36 +163,6 @@ export function setUpUI() {
       window.localStorage.setItem(
         'willAskFastAutomatically',
         String(channel.willAskFastAutomatically)
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  });
-
-  // For auto-save-replay-checkbox
-  const autoSaveReplayCheckbox = document.getElementById(
-    'auto-save-replay-checkbox'
-  );
-  try {
-    willSaveReplayAutomatically =
-      'true' === window.localStorage.getItem('willSaveReplayAutomatically');
-  } catch (err) {
-    console.log(err);
-  }
-  if (willSaveReplayAutomatically !== null) {
-    // @ts-ignore
-    autoSaveReplayCheckbox.checked = willSaveReplayAutomatically;
-  } else {
-    // @ts-ignore
-    willSaveReplayAutomatically = autoSaveReplayCheckbox.checked;
-  }
-  autoSaveReplayCheckbox.addEventListener('change', () => {
-    // @ts-ignore
-    willSaveReplayAutomatically = autoSaveReplayCheckbox.checked;
-    try {
-      window.localStorage.setItem(
-        'willSaveReplayAutomatically',
-        String(willSaveReplayAutomatically)
       );
     } catch (err) {
       console.log(err);
@@ -498,12 +467,6 @@ export function setUpUI() {
     // This is for exiting the window by the browser exit button while being connected with quick match server
     cleanUpFirestoreRelevants();
     if (channel.isOpen) {
-      if (
-        willSaveReplayAutomatically &&
-        !document.getElementById('flex-container').classList.contains('hidden')
-      ) {
-        replaySaver.saveAsFile();
-      }
       // Cancel the event
       e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
       // Chrome requires returnValue to be set
@@ -635,6 +598,7 @@ function getJoinRoomID() {
       .getElementById('join-room-id-input')
       // @ts-ignore
       .value.trim()
+      .toUpperCase()
   );
 }
 
@@ -665,7 +629,7 @@ export function printFailedToConnectToQuickMatchServer() {
 export function printQuickMatchLog(log) {
   const connectionLog = document.getElementById('quick-match-log');
   connectionLog.textContent += `${log}\n`;
-  connectionLog.scrollIntoView();
+  connectionLog.scrollIntoView({ block: 'center' });
 }
 
 /**
@@ -698,7 +662,7 @@ export function printLog(log) {
   }
   const connectionLog = document.getElementById(elementId);
   connectionLog.textContent += `${log}\n`;
-  connectionLog.scrollIntoView();
+  connectionLog.scrollIntoView({ block: 'center' });
 }
 
 export function printPeriodInLog() {
@@ -708,7 +672,7 @@ export function printPeriodInLog() {
   }
   const connectionLog = document.getElementById(elementId);
   connectionLog.textContent += '.';
-  connectionLog.scrollIntoView();
+  connectionLog.scrollIntoView({ block: 'center' });
 }
 
 export function printNotValidRoomIdMessage() {
@@ -910,14 +874,6 @@ export function askOptionsChangeReceivedFromPeer(options) {
 }
 
 export function noticeDisconnected() {
-  if (
-    willSaveReplayAutomatically &&
-    !document.getElementById('flex-container').classList.contains('hidden') &&
-    !alreadySaved
-  ) {
-    replaySaver.saveAsFile();
-    alreadySaved = true;
-  }
   document.getElementById('notice-disconnected').classList.remove('hidden');
 }
 

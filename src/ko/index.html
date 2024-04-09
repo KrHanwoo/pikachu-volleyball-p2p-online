@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>피카츄 배구 P2P 온라인</title>
+  <title>피카츄 배구</title>
   <meta name="description" content="피카츄 배구 게임을 P2P 연결을 통해 온라인으로 플레이하세요" />
   <meta name="author" content="이규태" />
 
@@ -15,7 +15,7 @@
 <body>
   <div id="before-connection" class="limit-width">
     <div id="about-box-head">
-      <h1>피카츄 배구 <span class="no-wrap">P2P 온라인</span></h1>
+      <h1>피카츄 배구</h1>
       <div class="if-embedded-in-other-website hidden">
         <div class="limit-width">
           타 사이트 상에서 피카츄 배구 P2P 온라인을 실행하고 있는 것 같습니다.
@@ -60,7 +60,7 @@
       </div>
       <div id="room-id-with-join-btn">
         <label for="join-room-id-input">들어갈 방 ID</label>
-        <input type="text" id="join-room-id-input" maxlength="30" autocapitalize="none" autocomplete="off"
+        <input type="text" id="join-room-id-input" maxlength="4" autocapitalize="none" autocomplete="off"
           autocorrect="off" />
         <button type="button" id="join-btn">
           방 <span class="no-wrap">들어가기</span>
@@ -189,14 +189,6 @@
       </div>
       <div>
         <p class="margin-top">
-          <span class="thick">리플레이:</span> "리플레이 저장" 버튼(게임 화면
-          상단에 나타납니다)을 누르면, 게임 시작부터 해당 버튼을 누른
-          순간까지가 리플레이 파일로 저장됩니다. 저장한 리플레이 파일을
-          <a href="./replay/">리플레이 재생기</a>로 재생할 수 있습니다.
-        </p>
-      </div>
-      <div>
-        <p class="margin-top">
           <span class="thick">설정:</span> 적용하기 원하는 설정에 체크
           표시하면 됩니다.
         </p>
@@ -205,13 +197,6 @@
           <label for="auto-fast-speed-checkbox">게임 속도 "빠르게" 변경하기를 상대방에게 자동으로 신청 (양측 모두
             이 설정에 체크 표시한 경우, 별다른 메시지 없이 게임 속도가
             "빠르게"로 변경됩니다.)</label>
-        </div>
-        <div class="margin-top-a-little">
-          <input id="auto-save-replay-checkbox" type="checkbox" />
-          <label for="auto-save-replay-checkbox">리플레이 자동 저장 (상대방과의 연결을 마칠 때 리플레이 파일을
-            자동으로 저장합니다. 크롬, 파이어폭스 브라우저에서 정상 작동을
-            확인했습니다. 사파리 브라우저에서는 오류를 일으키므로 이 설정을
-            끄기를 권장합니다.)</label>
         </div>
       </div>
       <div>

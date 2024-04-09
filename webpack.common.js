@@ -54,21 +54,6 @@ module.exports = {
       filename: 'ko/index.html',
       chunks: [
         'runtime',
-        'main',
-        'dark_color_scheme',
-        'is_embedded_in_other_website',
-      ],
-      chunksSortMode: 'manual',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/ko/index.html',
-      filename: 'ko/index.html',
-      chunks: [
-        'runtime',
         'ko',
         'main',
         'dark_color_scheme',
@@ -83,27 +68,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/ko/replay/index.html',
       filename: 'ko/replay/index.html',
-      chunks: ['runtime', 'main_replay', 'dark_color_scheme'],
-      chunksSortMode: 'manual',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/ko/replay/index.html',
-      filename: 'ko/replay/index.html',
       chunks: ['runtime', 'ko', 'main_replay', 'dark_color_scheme'],
-      chunksSortMode: 'manual',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/ko/update-history/index.html',
-      filename: 'ko/update-history/index.html',
-      chunks: ['main_update_history', 'dark_color_scheme'],
       chunksSortMode: 'manual',
       minify: {
         collapseWhitespace: true,
