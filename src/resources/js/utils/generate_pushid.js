@@ -35,7 +35,7 @@ export const generatePushID = (function () {
     const duplicateTime = now === lastPushTime;
     lastPushTime = now;
 
-    const timeStampChars = new Array(10);
+    const timeStampChars = new Array(3);
     for (let i = 9; i >= 0; i--) {
       timeStampChars[i] = PUSH_CHARS.charAt(now % 32);
       // NOTE: Can't use << here because javascript will convert to int and lose the upper bits.
@@ -51,10 +51,10 @@ export const generatePushID = (function () {
         typeof window.crypto !== 'undefined' &&
         window.crypto.getRandomValues
       ) {
-        array = new Uint32Array(10);
+        array = new Uint32Array(3);
         window.crypto.getRandomValues(array);
       }
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 3; i++) {
         lastRandChars[i] = array
           ? array[i] % 32
           : Math.floor(Math.random() * 32);
@@ -67,7 +67,7 @@ export const generatePushID = (function () {
       }
       lastRandChars[i]++;
     }
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 3; i++) {
       id += PUSH_CHARS.charAt(lastRandChars[i]);
     }
     if (id.length !== 20) throw new Error('Length should be 20.');
