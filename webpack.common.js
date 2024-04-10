@@ -39,7 +39,7 @@ module.exports = {
       patterns: [
         {
           context: 'src/',
-          from: 'resources/assets/**/*.+(json|png|mp3|wav)',
+          from: 'resources/assets/**/*.+(json|png|mp3|wav|svg)',
         },
       ],
     }),

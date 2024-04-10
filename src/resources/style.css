@@ -31,7 +31,7 @@
   --amount-to-invert-image: 0;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #202124;
     --background-color-with-alpha: rgba(32, 33, 36, 0.9);
@@ -50,7 +50,7 @@
     --update-fade-in-box-background-color: rgba(195, 197, 48, 0.85);
     --amount-to-invert-image: 0.95;
   }
-}
+} */
 
 /* Copy of the variables in :root above */
 :root[data-color-scheme='light'] {
@@ -74,7 +74,7 @@
 }
 
 /* Copy of the variables in @media (prefers-color-scheme: dark) :root above */
-:root[data-color-scheme='dark'] {
+/* :root[data-color-scheme='dark'] {
   --background-color: #202124;
   --background-color-with-alpha: rgba(32, 33, 36, 0.9);
   --color: #bdc1c6;
@@ -91,7 +91,7 @@
   --button-disabled-background-color: #666666;
   --update-fade-in-box-background-color: rgba(195, 197, 48, 0.85);
   --amount-to-invert-image: 0.95;
-}
+} */
 
 /* size of iPad screen is 768px x 1024px in portrait mode */
 @media only screen and (min-width: 768px) and (min-height: 768px) {
@@ -1158,4 +1158,26 @@ input.toggle-switch:checked+label::before {
 
 #current-room-id {
   text-transform: uppercase;
+}
+
+#codle-btn-home {
+  height: var(--btn-height);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px;
+  justify-content: center;
+}
+
+#codle-btn-game {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px;
+  justify-content: center;
+}
+
+#codle-btn-home>img,
+#codle-btn-game>img {
+  height: 28px;
 }

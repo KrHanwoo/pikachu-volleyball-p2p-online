@@ -125,7 +125,7 @@ export class PikachuVolleyball {
       this.slowMotionNumOfSkippedFrames++;
       if (
         this.slowMotionNumOfSkippedFrames %
-          Math.round(this.normalFPS / this.slowMotionFPS) !==
+        Math.round(this.normalFPS / this.slowMotionFPS) !==
         0
       ) {
         return;

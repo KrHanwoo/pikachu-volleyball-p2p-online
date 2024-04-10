@@ -479,11 +479,6 @@ export function setUpUI() {
   setUpToShowDropdownsAndSubmenus();
   setUpOptionsAskAndNoticeBoxes();
 
-  const saveReplayBtn = document.getElementById('save-replay-btn');
-  saveReplayBtn.addEventListener('click', () => {
-    replaySaver.saveAsFile();
-  });
-
   const exitBtn = document.getElementById('exit-btn');
   exitBtn.addEventListener('click', () => {
     location.reload();
@@ -1444,3 +1439,10 @@ function hideSubmenus() {
     submenuBtns[i].classList.remove('open');
   }
 }
+
+function codle() {
+  window.open('https://codle.io/classrooms', '_blank');
+}
+
+document.getElementById('codle-btn-home').onclick = codle;
+document.getElementById('codle-btn-game').onclick = codle;
