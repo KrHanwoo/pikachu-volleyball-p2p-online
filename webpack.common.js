@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  mode: 'production',
+  devtool: 'source-map',
   entry: {
     main: './src/resources/js/main_online.js',
     main_replay: './src/resources/js/replay/main_replay.js',
